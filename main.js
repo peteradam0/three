@@ -16,6 +16,7 @@ scene.add( cube );
 
 camera.position.z = 5;
 
+
 function animate() {
 
   cube.rotation.x +=0.01;
@@ -23,4 +24,20 @@ function animate() {
   renderer.render( scene, camera)
 }
 
-renderer.setAnimationLoop( animate );
+
+
+const lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff});
+
+const points = [];
+points.push( new THREE.Vector3(-10,0,0));
+points.push( new THREE.Vector3(0,10,0));
+points.push( new THREE.Vector3(10,0,0));
+
+
+const geomerty = new THREE.BufferGeometry().setFromPoints( points );
+
+const line = new THREE.Line( geometry, lineMaterial );
+
+scene.add(line)
+
+renderer.setAnimationLoop(animate)
