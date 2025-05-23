@@ -25,18 +25,20 @@ function animate() {
 }
 
 
-
 const lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff});
 
 const points = [];
-points.push( new THREE.Vector3(-10,0,0));
-points.push( new THREE.Vector3(0,10,0));
-points.push( new THREE.Vector3(10,0,0));
+points.push( new THREE.Vector3(1,0,0));
+points.push( new THREE.Vector3(0,1,0));
+points.push( new THREE.Vector3(0,0,1));
+points.push( new THREE.Vector3(0,2,2));
+points.push( new THREE.Vector3(2,0,2));
+points.push( new THREE.Vector3(-0.6,0,0));
 
 
-const geomerty = new THREE.BufferGeometry().setFromPoints( points );
+const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
 
-const line = new THREE.Line( geometry, lineMaterial );
+const line = new THREE.Line( lineGeometry, lineMaterial );
 
 scene.add(line)
 
