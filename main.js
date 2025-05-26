@@ -28,10 +28,12 @@ function load3DModel() {
   camera.position.set(0, 1, 5)
   camera.lookAt(0, 0, 0)
 
+  let model;
+
   loader.load(
     'assets/Duck.glb',
     function (gltf) {
-      const model = gltf.scene
+      model = gltf.scene
       scene.add(model)
       animate()
     },
@@ -45,6 +47,9 @@ function load3DModel() {
 
   function animate() {
     requestAnimationFrame(animate)
+    if (model) {
+      model.rotation.y += 0.04
+    }
     renderer.render(scene, camera)
   }
 }
