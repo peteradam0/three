@@ -1,8 +1,53 @@
 import * as THREE from 'three'
-
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 createAnimatedCube()
 createLines()
+load3DModel()
+
+function load3DModel() {
+  const renderer = new THREE.WebGLRenderer()
+  renderer.setSize(window.innerWidth/2, window.innerHeight/2)
+  document.body.appendChild(renderer.domElement)
+
+  const loader = new GLTFLoader()
+  const scene = new THREE.Scene()
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6)
+  scene.add(ambientLight)
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+  directionalLight.position.set(1, 1, 1)
+  scene.add(directionalLight)
+  const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+  )
+  camera.position.set(0, 1, 5)
+  camera.lookAt(0, 0, 0)
+
+  loader.load(
+    'assets/Duck.glb',
+    function (gltf) {
+      const model = gltf.scene
+      scene.add(model)
+      animate()
+    },
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+    },
+    function (error) {
+      console.error('An error occurred while loading the model:', error)
+    }
+  )
+
+  function animate() {
+    requestAnimationFrame(animate)
+    renderer.render(scene, camera)
+  }
+}
 
 function createLines() {
   let renderer = new THREE.WebGLRenderer()
