@@ -1,45 +1,69 @@
 import * as THREE from 'three'
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGLRenderer();
+createAnimatedCube()
+createLines()
 
-renderer.setSize( window.innerWidth, window.innerHeight);
+function createLines() {
+  let renderer = new THREE.WebGLRenderer()
+  renderer.setSize(window.innerWidth / 2, window.innerHeight / 2)
+  document.body.appendChild(renderer.domElement)
 
-document.body.appendChild ( renderer.domElement);
+  const camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    1,
+    500
+  )
+  camera.position.set(0, 0, 100)
+  camera.lookAt(0, 0, 0)
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-const cube = new THREE.Mesh(geometry, material);
-scene.add( cube );
+  let scene = new THREE.Scene()
 
-camera.position.z = 5;
+  let lineMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff10 })
 
+  const points = []
+  points.push(new THREE.Vector3(-10, 0, 0))
+  points.push(new THREE.Vector3(0, 10, 0))
+  points.push(new THREE.Vector3(10, 0, 0))
+  points.push(new THREE.Vector3(0, -10, -10))
+  points.push(new THREE.Vector3(-10, 0, 0))
 
-function animate() {
+  let lineGeometry = new THREE.BufferGeometry().setFromPoints(points)
 
-  cube.rotation.x +=0.01;
-  cube.rotation.y +=0.01;
-  renderer.render( scene, camera)
+  let line = new THREE.Line(lineGeometry, lineMaterial)
+
+  scene.add(line)
+  renderer.render(scene, camera)
 }
 
+function createAnimatedCube() {
+  const scene = new THREE.Scene()
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  )
 
-const lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff});
+  const renderer = new THREE.WebGLRenderer()
 
-const points = [];
-points.push( new THREE.Vector3(1,0,0));
-points.push( new THREE.Vector3(0,1,0));
-points.push( new THREE.Vector3(0,0,1));
-points.push( new THREE.Vector3(0,2,2));
-points.push( new THREE.Vector3(2,0,2));
-points.push( new THREE.Vector3(-0.6,0,0));
+  renderer.setSize(window.innerWidth / 2, window.innerHeight / 2)
 
+  document.body.appendChild(renderer.domElement)
 
-const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
+  const geometry = new THREE.BoxGeometry(1, 1, 1)
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+  const cube = new THREE.Mesh(geometry, material)
+  scene.add(cube)
 
-const line = new THREE.Line( lineGeometry, lineMaterial );
+  camera.position.z = 5
 
-scene.add(line)
+  function animate() {
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+    renderer.render(scene, camera)
+  }
 
-renderer.setAnimationLoop(animate)
+  renderer.setAnimationLoop(animate)
+}
